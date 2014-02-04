@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Watch</title>
+    </head>
+    <body>
+        <div class="content">
+            <% if (id != undefined) {%>
+            <iframe width="640" height="360" src="<%= id%>" frameborder="0" allowfullscreen></iframe>
+            <% } else { %>
+            <iframe width="640" height="360" src="//www.youtube.com/embed/zeW0UcuQKps" frameborder="0" allowfullscreen></iframe>
+            <% } %>
+        </div>
+    </body>
+
+    
+</html>
