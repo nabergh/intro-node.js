@@ -8,3 +8,9 @@ module.exports.watch = function(req, res) {
 		res.send(html);
 	});
 }
+
+module.exports.connectfour = function(req, res) {
+	res.render('connectfour', {}, function(err, html) {
+		res.send(html);
+	});
+}
