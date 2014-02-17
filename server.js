@@ -5,8 +5,7 @@ var app = express();
 
 require('./routes')(app);
 
-var port = 8000;
-app.listen(8000);
+var port = Number(process.env.PORT || 8000);
 console.log('Express server listening to port' + port);
 
 //Points express to a folder where static files are kept
@@ -27,6 +26,7 @@ app.set('views', path.normalize(__dirname));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
+app.listen(port);
 
 /*app.get('/', function(req, res) {
 	res.send('Welcome to CS 1501');
