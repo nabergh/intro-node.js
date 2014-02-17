@@ -9,8 +9,8 @@ module.exports.watch = function(req, res) {
 	});
 }
 
-module.exports.connectfour = function(req, res) {
-	res.render('connectfour', {}, function(err, html) {
+module.exports.connect4 = function(req, res) {
+	res.render('connect4', {}, function(err, html) {
 		res.send(html);
 	});
 }
