@@ -1,9 +1,10 @@
 var express = require('express'),
-	path = require('path');
+	path = require('path'),
+	mongoose = require('mongoose'),
+	models = require('./models');
 
 var app = express();
 
-require('./routes')(app);
 
 var port = Number(process.env.PORT || 8000);
 console.log('Express server listening to port' + port);
@@ -13,6 +14,8 @@ app.use(express.static(path.normalize(__dirname)));
 
 //Tell express to use its built in error handler
 app.use(express.errorHandler());
+
+var uristring = process.env.MONGOLAB_URI || "mongodb://heroku_app22105150:rnpqbsihbcso0qorfjmao4tig9@ds037407.mongolab.com:37407/heroku_app22105150";
 
 app.configure(function() {
 	app.use(express.logger('dev'));
@@ -26,7 +29,17 @@ app.set('views', path.normalize(__dirname));
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-app.listen(port);
+require('./routes')(app);
+
+mongoose.connect(uristring, function(err, res) {
+	if (err) {
+		console.log("Error: " + err);
+	}
+	var port = Number(process.env.PORT || 8000);
+	app.listen(port);
+	console.log('App listening on port: ' + port);
+});
+
 
 /*app.get('/', function(req, res) {
 	res.send('Welcome to CS 1501');
