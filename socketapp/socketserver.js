@@ -2,7 +2,7 @@ var app = require('express')(),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server);
 
-server.listen(8088);
+server.listen(process.env.PORT || 8088);
 
 //Points express to a folder where static files are kept
 app.use(require("express").static(__dirname + ""));
