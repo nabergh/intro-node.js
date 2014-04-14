@@ -13,6 +13,6 @@ $('body').mousemove(function(event) {
 socket.on('serverMousemove', function(data) {
 	console.log(data);
 	if(data.clientID / 2 == clientID / 2 && data.clientID != clientID) {
-		$('#cursor').css({'left': data.mouseX, 'top': data.mouseY});
+		$('#cursor').css({'left': data.mouseX + 30, 'top': data.mouseY});
 	}
 });
