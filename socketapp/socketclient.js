@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost"); //remember to change this for deployment
+var socket = io.connect("nabergh.herokuapp.com"); //remember to change this for deployment
 var clientID;
 
 socket.on('assign-id', function(data) {
