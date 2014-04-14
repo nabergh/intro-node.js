@@ -18,8 +18,10 @@ io.sockets.on('connection', function (socket) {
 	socket.on('client-event', function (data) {
 		console.log(data);
 	});
-	socket.on('clientMousemove', function(data) {
-		socket.emit('serverMousemove', data);
-	});
+
 });
+
+	io.sockets.on('clientMousemove', function(data) {
+		io.sockets.emit('serverMousemove', data);
+	});
 
