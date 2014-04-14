@@ -10,6 +10,7 @@
 	"dependencies" : {
 		"express" : "latest",
 		"ejs" : "latest",
-		"mongoose" : "latest"
+		"mongoose" : "latest",
+		"socket.io" : "latest"
 	}
 }
