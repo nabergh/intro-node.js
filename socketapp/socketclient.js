@@ -19,10 +19,12 @@ function setAnimateDuration(dur) {
 	duration = dur;
 }
 
+var prevX, prevY, diffX, diffY, distance,;
 socket.on('serverMousemove', function(data) {
 	console.log(data);
-	if(true && data.clientID != clientID) {//data.clientID / 2 == clientID / 2
-		//$('#cursor').css({'left': data.mouseX, 'top': data.mouseY});
-		$('#cursor').animate({'left': data.mouseX, 'top': data.mouseY}, duration, 'linear');
-	}
+	diffX = data.mouseX - prevX;
+	diffY = data.mouseY - prevY;
+	distance = Math.sqrt(diffX*diffX + diffY*diffY);
+	duration = 5 + distance / 30;
+	$('#cursor').animate({'left': data.mouseX, 'top': data.mouseY}, duration, 'linear');
 });
