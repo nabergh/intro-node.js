@@ -8,7 +8,7 @@ socket.on('assign-id', function(data) {
 
 var mouseCounter = 0;
 $('body').mousemove(function(event) {
-	if(mouseCounter++ > 2) {
+	if(mouseCounter++ > 1) {
 		socket.emit('clientMousemove', { 'clientID': clientID, mouseX: event.pageX, mouseY: event.pageY});
 		mouseCounter = 0;
 	}
