@@ -19,7 +19,7 @@ function setAnimateDuration(dur) {
 	duration = dur;
 }
 
-var prevX, prevY, diffX, diffY, distance,;
+var prevX, prevY, diffX, diffY, distance;
 socket.on('serverMousemove', function(data) {
 	console.log(data);
 	diffX = data.mouseX - prevX;
