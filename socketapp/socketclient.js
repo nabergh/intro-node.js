@@ -12,7 +12,7 @@ var duration, currTime;
 $('body').mousemove(function(event) {
 	if(mouseCounter++ > 1) {
 		currTime = Date.now();
-		duration = currTime - prevTime;
+		duration = Math.min(currTime - prevTime);
 		prevTime = currTime;
 		socket.emit('clientMousemove', {
 			'clientID': clientID,
