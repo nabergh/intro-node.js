@@ -6,8 +6,12 @@ socket.on('assign-id', function(data) {
 	socket.emit('client-event', { client: 'data'});
 });
 
+var mouseCounter = 0;
 $('body').mousemove(function(event) {
-	socket.emit('clientMousemove', { 'clientID': clientID, mouseX: event.pageX, mouseY: event.pageY});
+	if(mouseCounter++ > 2) {
+		socket.emit('clientMousemove', { 'clientID': clientID, mouseX: event.pageX, mouseY: event.pageY});
+		mouseCounter = 0;
+	}
 });
 
 socket.on('serverMousemove', function(data) {
