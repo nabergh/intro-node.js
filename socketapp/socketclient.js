@@ -11,7 +11,7 @@ var prevTime = Date.now();
 var duration, currTime;
 $('body').mousemove(function(event) {
 	if(mouseCounter++ > 1) {
-		currTime - Date.now();
+		currTime = Date.now();
 		duration = currTime - prevTime;
 		prevTime = currTime;
 		socket.emit('clientMousemove', {
