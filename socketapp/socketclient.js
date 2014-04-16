@@ -14,9 +14,15 @@ $('body').mousemove(function(event) {
 	}
 });
 
+var duration = 10;
+function setAnimateDuration(dur) {
+	duration = dur;
+}
+
 socket.on('serverMousemove', function(data) {
 	console.log(data);
 	if(true && data.clientID != clientID) {//data.clientID / 2 == clientID / 2
-		$('#cursor').css({'left': data.mouseX, 'top': data.mouseY});
+		//$('#cursor').css({'left': data.mouseX, 'top': data.mouseY});
+		$('#cursor').animate({'left': data.mouseX, 'top': data.mouseY}, duration);
 	}
 });
