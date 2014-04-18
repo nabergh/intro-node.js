@@ -27,5 +27,11 @@ io.sockets.on('connection', function (socket) {
 	socket.on('brushChange', function(data) {
 		socket.broadcast.emit('brushChange', data);
 	});
+	socket.on('startPaint', function(data) {
+		socket.broadcast.emit('startPaint', data);
+	});
+	socket.on('endPaint', function(data) {
+		socket.broadcast.emit('endPaint', data);
+	});
 });
 

@@ -29,10 +29,10 @@ $(document).mousemove(function(event) {
 socket.on('serverMousemove', function(data) {
 	//console.log(data);
 	//if (data.clientID != clientID) {
-		$('#cursor').animate({
-			'left': data.mouseX,
-			'top': data.mouseY
-		}, data.duration, 'linear');
+	$('#cursor').animate({
+		'left': data.mouseX - weight/2,
+		'top': data.mouseY - weight/2
+	}, data.duration, 'linear');
 	//}
 });
 
@@ -49,21 +49,50 @@ socket.on('fillCanvas', function(data) {
 	var img = new Image();
 	img.src = data.url;
 	//if (data.clientID != clientID) {
-		context.drawImage(img, 0, 0);
+	context.drawImage(img, 0, 0);
 	//}
 });
 
 function brushChange(type, change) {
 	socket.emit('brushChange', {
 		'clientID': clientID,
-		type: change
+		'type': type,
+		'change': change
 	});
 }
 
-socket.on('brushChange', data) {
-	if(type == 'color') {
-		color = data.type;
-	} else if (type == 'weight') {
-		weight = data.type;
+socket.on('brushChange', function(data) {
+	if (data.type == 'color') {
+		color = data.change;
+	} else if (data.type == 'weight') {
+		weight = data.change;
 	}
-}
+	updateCursor(color, weight);
+});
+
+function updateCursor(color, weight) {
+	$('#cursor').empty();
+	var cursor = $('.weight-pick').filter(function(index) {
+		return $(this).attr('weight') == weight;
+	}).clone();
+	cursor.css('background-color', color);
+	$('#cursor').append(cursor);
+};
+
+$('canvas').mousedown(function() {
+	socket.emit('startPaint', {
+		'clientID': clientID
+	});
+}).mouseup(function() {
+	socket.emit('endPaint', {
+		'clientID': clientID
+	});
+});
+
+socket.on('startPaint', function(data) {
+	$('#cursor').addClass('painting');
+});
+
+socket.on('endPaint', function(data) {
+	$('#cursor').removeClass('painting');
+});
