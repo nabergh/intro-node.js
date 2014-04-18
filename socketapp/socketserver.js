@@ -21,5 +21,8 @@ io.sockets.on('connection', function (socket) {
 	socket.on('clientMousemove', function(data) {
 		io.sockets.emit('serverMousemove', data);
 	});
+	socket.on('fillCanvas', function(data) {
+		io.sockets.emit('fillCanvas', data);
+	});
 });
 

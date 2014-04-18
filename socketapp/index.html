@@ -5,14 +5,34 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Socket App</title>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
   <link rel="stylesheet" href="game.css">
 
 
 </head>
 <body>
-Socket app home.
+  <div id="painter">
+	 <canvas id="drawingBoard" width="600" height="400"></canvas>
+    <div id="tools">
+      <div id="clear"></div>
+      <div class="color-pick" style="background-color:black"></div>
+      <div class="color-pick" style="background-color:blue"></div>
+      <div class="color-pick" style="background-color:green"></div>
+      <div class="color-pick" style="background-color:yellow"></div>
+      <div class="color-pick" style="background-color:red"></div>
+      <div class="color-pick" style="background-color:white"></div>
+      <div class="weight-pick" weight="2"></div>
+      <div class="weight-pick" weight="5"></div>
+      <div class="weight-pick" weight="10"></div>
+      <div class="weight-pick" weight="20"></div>
+    </div>
+    <button id='send-canvas'>Send canvas</button>
+  </div>
+
+
 	<img src="cursor.png" id="cursor">
-	<script src="./socketclient.js"></script>
+  <script src="./game.js"></script>
+  <script src="./paint.js"></script>
+
 </body>
