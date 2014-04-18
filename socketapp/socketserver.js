@@ -19,10 +19,13 @@ io.sockets.on('connection', function (socket) {
 		console.log(data);
 	});
 	socket.on('clientMousemove', function(data) {
-		io.sockets.emit('serverMousemove', data);
+		socket.broadcast.emit('serverMousemove', data);
 	});
 	socket.on('fillCanvas', function(data) {
-		io.sockets.emit('fillCanvas', data);
+		socket.broadcast.emit('fillCanvas', data);
+	});
+	socket.on('brushChange', function(data) {
+		socket.broadcast.emit('brushChange', data);
 	});
 });
 

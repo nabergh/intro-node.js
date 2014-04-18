@@ -68,6 +68,7 @@ function clear() {
 
 $('.color-pick').click(function(e) {
 	color = $(this).css('background-color');
+	brushChange('color', color);
 });
 
 $('.weight-pick').each(function() {
@@ -81,6 +82,7 @@ $('.weight-pick').each(function() {
 
 $('.weight-pick').click(function(e) {
 	weight = $(this).attr('weight');
+	brushChange('weight', weight);
 });
 
 $('#clear').click(function(e) {

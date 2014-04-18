@@ -4,6 +4,7 @@ body {
 	bottom: 0px;
 	left: 0px;
 	right: 0px;
+	margin: 0; /*so that the mouse offset is accurate to body*/
 }
 
 #painter {
