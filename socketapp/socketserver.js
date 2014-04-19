@@ -11,26 +11,34 @@ app.get('/', function (req, res) {
 	res.sendfile(__dirname + '/index.html');
 });
 
-var clientID = 0;
+var playerQueue = [];
 
 io.sockets.on('connection', function (socket) {
-	socket.emit('assign-id', { "clientID": clientID++, 'socketID': socket.id});
-	socket.on('client-event', function (data) {
-		console.log(data);
-	});
+	socket.on('opponent-searching', function() {
+		if(playerQueue.length == 0) {
+			playerQueue.push(socket.id);
+		}
+		else {
+			var oppID;
+			while(io.sockets.sockets[oppID] === undefined)
+				oppID = playerQueue.shift();
+			io.sockets.socket(oppID).emit('opponent-found', {'oppID': socket.id});
+			io.sockets.socket(socket.id).emit('opponent-found', {'oppID': oppID});
+		}
+	})
 	socket.on('clientMousemove', function(data) {
-		socket.broadcast.emit('serverMousemove', data);
+		io.sockets.socket(data.oppID).emit('serverMousemove', data);
 	});
 	socket.on('fillCanvas', function(data) {
-		socket.broadcast.emit('fillCanvas', data);
+		io.sockets.socket(data.oppID).emit('fillCanvas', data);
 	});
 	socket.on('brushChange', function(data) {
-		socket.broadcast.emit('brushChange', data);
+		io.sockets.socket(data.oppID).emit('brushChange', data);
 	});
 	socket.on('startPaint', function(data) {
-		socket.broadcast.emit('startPaint', data);
+		io.sockets.socket(data.oppID).emit('startPaint', data);
 	});
 	socket.on('endPaint', function(data) {
-		socket.broadcast.emit('endPaint', data);
+		io.sockets.socket(data.oppID).emit('endPaint', data);
 	});
 });

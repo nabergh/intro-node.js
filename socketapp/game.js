@@ -1,9 +1,12 @@
 var socket = io.connect("nabergh.herokuapp.com");
-var clientID;
+var oppID; //opponent's socket id
 
-socket.on('assign-id', function(data) {
-	console.log(data);
-	clientID = data['clientID'];
+socket.on('connect', function(data) {
+	socket.emit('opponent-searching');
+});
+
+socket.on('opponent-found', function(data) {
+	oppID = data['oppID'];
 	updateCursor(color, weight);
 });
 
@@ -19,7 +22,7 @@ painter.mousemove(function(event) {
 		duration = Math.min(currTime - prevTime, 30);
 		prevTime = currTime;
 		socket.emit('clientMousemove', {
-			'clientID': clientID,
+			'oppID': oppID,
 			mouseX: event.pageX - offX,
 			mouseY: event.pageY - offY,
 			'duration': duration
@@ -38,7 +41,7 @@ socket.on('serverMousemove', function(data) {
 $('#send-canvas').click(function(event) {
 	console.log()
 	socket.emit('fillCanvas', {
-		'clientID': clientID,
+		'oppID': oppID,
 		url: canvas.toDataURL()
 	});
 });
@@ -51,7 +54,7 @@ socket.on('fillCanvas', function(data) {
 
 function brushChange(c, w) {
 	socket.emit('brushChange', {
-		'clientID': clientID,
+		'oppID': oppID,
 		'color': c,
 		'weight': w
 	});
@@ -77,12 +80,12 @@ function updateCursor(color, weight) {
 
 $('canvas').mousedown(function() {
 	socket.emit('startPaint', {
-		'clientID': clientID
+		'oppID': oppID
 	});
 });
 $(document).mouseup(function() {
 	socket.emit('endPaint', {
-		'clientID': clientID
+		'oppID': oppID
 	});
 });
 
