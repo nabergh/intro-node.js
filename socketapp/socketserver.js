@@ -7,23 +7,26 @@ server.listen(process.env.PORT || 8088);
 //Points express to a folder where static files are kept
 app.use(require("express").static(__dirname + ""));
 
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/index.html');
 });
 
 var playerQueue = [];
 
-io.sockets.on('connection', function (socket) {
+io.sockets.on('connection', function(socket) {
 	socket.on('opponent-searching', function() {
-		if(playerQueue.length == 0) {
+		var oppID;
+		while (io.sockets.sockets[oppID] === undefined && playerQueue.length != 0)
+			oppID = playerQueue.shift();
+		if (playerQueue.length == 0 && oppID === undefined) {
 			playerQueue.push(socket.id);
-		}
-		else {
-			var oppID;
-			while(io.sockets.sockets[oppID] === undefined)
-				oppID = playerQueue.shift();
-			io.sockets.socket(oppID).emit('opponent-found', {'oppID': socket.id});
-			io.sockets.socket(socket.id).emit('opponent-found', {'oppID': oppID});
+		} else {
+			io.sockets.socket(oppID).emit('opponent-found', {
+				'oppID': socket.id
+			});
+			io.sockets.socket(socket.id).emit('opponent-found', {
+				'oppID': oppID
+			});
 		}
 	})
 	socket.on('clientMousemove', function(data) {

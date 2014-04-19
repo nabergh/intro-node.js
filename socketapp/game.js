@@ -70,7 +70,7 @@ function updateCursor(color, weight) {
 		return $(this).attr('weight') == weight;
 	}).clone();
 	cursor.css('background-color', color);
-	if(color == 'rgb(255, 255, 255)') {
+	if (color == 'rgb(255, 255, 255)') {
 		cursor.css('border', 'solid black 1px');
 	} else {
 		cursor.css('border', 'none');
