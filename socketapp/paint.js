@@ -49,7 +49,7 @@ function draw() {
 
 	var i = clickX.length - 1
 	context.strokeStyle = colors[i];
-	context.lineWidth = weights[i];
+	context.lineWidth = weights[i] - 2;
 	context.beginPath();
 	if (clickDrag[i] && i) {
 		context.moveTo(clickX[i - 1], clickY[i - 1]);
@@ -68,7 +68,7 @@ function clear() {
 
 $('.color-pick').click(function(e) {
 	color = $(this).css('background-color');
-	brushChange('color', color);
+	brushChange(color, weight);
 });
 
 $('.weight-pick').each(function() {
@@ -82,7 +82,7 @@ $('.weight-pick').each(function() {
 
 $('.weight-pick').click(function(e) {
 	weight = $(this).attr('weight');
-	brushChange('weight', weight);
+	brushChange(color, weight);
 });
 
 $('#clear').click(function(e) {

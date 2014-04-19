@@ -1,18 +1,10 @@
-body {
-	position: absolute;
-	top: 0px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
-	margin: 0; /*so that the mouse offset is accurate to body*/
-}
-
 #painter {
-	margin: 0 auto;
+	margin: 30px auto;
+	width: 600px;
 }
 
 #cursor {
-	position: absolute;
+	position: relative;
 }
 
 canvas {

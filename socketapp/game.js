@@ -3,23 +3,24 @@ var clientID;
 
 socket.on('assign-id', function(data) {
 	clientID = data['clientID'];
-	socket.emit('client-event', {
-		client: 'data'
-	});
+	updateCursor(color, weight);
 });
 
 var mouseCounter = 0;
 var prevTime = Date.now();
 var duration, currTime;
-$('canvas').mousemove(function(event) {
+var painter = $('#painter');
+var offX = painter.offset().left;
+var offY = painter.offset().top;
+painter.mousemove(function(event) {
 	if (mouseCounter++ > 2) {
 		currTime = Date.now();
 		duration = Math.min(currTime - prevTime, 30);
 		prevTime = currTime;
 		socket.emit('clientMousemove', {
 			'clientID': clientID,
-			mouseX: event.pageX,
-			mouseY: event.pageY,
+			mouseX: event.pageX - offX,
+			mouseY: event.pageY - offY,
 			'duration': duration
 		});
 		mouseCounter = 0;
@@ -27,13 +28,10 @@ $('canvas').mousemove(function(event) {
 });
 
 socket.on('serverMousemove', function(data) {
-	//console.log(data);
-	//if (data.clientID != clientID) {
 	$('#cursor').animate({
-		'left': data.mouseX - weight/2,
-		'top': data.mouseY - weight/2
+		'left': data.mouseX - weight / 2,
+		'top': data.mouseY - weight / 2
 	}, data.duration, 'linear');
-	//}
 });
 
 $('#send-canvas').click(function(event) {
@@ -47,26 +45,19 @@ $('#send-canvas').click(function(event) {
 socket.on('fillCanvas', function(data) {
 	var img = new Image();
 	img.src = data.url;
-	//if (data.clientID != clientID) {
 	context.drawImage(img, 0, 0);
-	//}
 });
 
-function brushChange(type, change) {
+function brushChange(c, w) {
 	socket.emit('brushChange', {
 		'clientID': clientID,
-		'type': type,
-		'change': change
+		'color': c,
+		'weight': w
 	});
 }
 
 socket.on('brushChange', function(data) {
-	if (data.type == 'color') {
-		color = data.change;
-	} else if (data.type == 'weight') {
-		weight = data.change;
-	}
-	updateCursor(color, weight);
+	updateCursor(data.color, data.weight);
 });
 
 function updateCursor(color, weight) {
@@ -75,6 +66,11 @@ function updateCursor(color, weight) {
 		return $(this).attr('weight') == weight;
 	}).clone();
 	cursor.css('background-color', color);
+	if(color == 'rgb(255, 255, 255)') {
+		cursor.css('border', 'solid black 1px');
+	} else {
+		cursor.css('border', 'none');
+	}
 	$('#cursor').append(cursor);
 };
 
@@ -82,7 +78,8 @@ $('canvas').mousedown(function() {
 	socket.emit('startPaint', {
 		'clientID': clientID
 	});
-}).mouseup(function() {
+});
+$(document).mouseup(function() {
 	socket.emit('endPaint', {
 		'clientID': clientID
 	});

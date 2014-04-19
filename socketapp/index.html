@@ -13,7 +13,8 @@
 </head>
 <body>
   <div id="painter">
-	 <canvas id="drawingBoard" width="600" height="400"></canvas>
+    <div id="cursor"></div>
+	  <canvas id="drawingBoard" width="600" height="400"></canvas>
     <div id="tools">
       <div id="clear"></div>
       <div class="color-pick" style="background-color:black"></div>
@@ -22,7 +23,6 @@
       <div class="color-pick" style="background-color:yellow"></div>
       <div class="color-pick" style="background-color:red"></div>
       <div class="color-pick" style="background-color:white"></div>
-      <div class="weight-pick" weight="2"></div>
       <div class="weight-pick" weight="5"></div>
       <div class="weight-pick" weight="10"></div>
       <div class="weight-pick" weight="20"></div>
@@ -30,8 +30,6 @@
     <button id='send-canvas'>Send canvas</button>
   </div>
 
-
-	<img src="cursor.png" id="cursor">
   <script src="./game.js"></script>
   <script src="./paint.js"></script>
 

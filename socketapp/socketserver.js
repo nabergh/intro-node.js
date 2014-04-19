@@ -34,4 +34,3 @@ io.sockets.on('connection', function (socket) {
 		socket.broadcast.emit('endPaint', data);
 	});
 });
-
