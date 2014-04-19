@@ -4,12 +4,13 @@
 }
 
 #cursor {
-	position: relative;
+	position: fixed;
 }
 
 canvas {
 	border: solid black 1px;
 	cursor: crosshair;
+	border-radius: 2px;
 }
 
 #tools div {

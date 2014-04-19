@@ -2,6 +2,7 @@ var socket = io.connect("nabergh.herokuapp.com");
 var clientID;
 
 socket.on('assign-id', function(data) {
+	console.log(data);
 	clientID = data['clientID'];
 	updateCursor(color, weight);
 });
@@ -29,8 +30,8 @@ painter.mousemove(function(event) {
 
 socket.on('serverMousemove', function(data) {
 	$('#cursor').animate({
-		'left': data.mouseX - weight / 2,
-		'top': data.mouseY - weight / 2
+		'left': data.mouseX + offX - weight / 2,
+		'top': data.mouseY + offY - weight / 2
 	}, data.duration, 'linear');
 });
 
