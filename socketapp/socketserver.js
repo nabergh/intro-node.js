@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 var clientID = 0;
 
 io.sockets.on('connection', function (socket) {
-	socket.emit('assign-id', { "clientID": clientID++, 'socket': socket});
+	socket.emit('assign-id', { "clientID": clientID++, 'socketID': socket.id});
 	socket.on('client-event', function (data) {
 		console.log(data);
 	});
