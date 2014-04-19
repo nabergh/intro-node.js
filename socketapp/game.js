@@ -11,7 +11,7 @@ socket.on('assign-id', function(data) {
 var mouseCounter = 0;
 var prevTime = Date.now();
 var duration, currTime;
-$(document).mousemove(function(event) {
+$('canvas').mousemove(function(event) {
 	if (mouseCounter++ > 2) {
 		currTime = Date.now();
 		duration = Math.min(currTime - prevTime, 30);
@@ -45,7 +45,6 @@ $('#send-canvas').click(function(event) {
 });
 
 socket.on('fillCanvas', function(data) {
-	console.log(data);
 	var img = new Image();
 	img.src = data.url;
 	//if (data.clientID != clientID) {
@@ -90,9 +89,9 @@ $('canvas').mousedown(function() {
 });
 
 socket.on('startPaint', function(data) {
-	$('#cursor').addClass('painting');
+	$('#cursor').children().addClass('painting');
 });
 
 socket.on('endPaint', function(data) {
-	$('#cursor').removeClass('painting');
+	$('#cursor').children().removeClass('painting');
 });
