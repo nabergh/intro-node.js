@@ -15,12 +15,14 @@ var playerQueue = [];
 
 io.sockets.on('connection', function(socket) {
 	socket.on('opponent-searching', function() {
-		var oppID;
+		var oppID = playerQueue.shift();
 		while (io.sockets.sockets[oppID] === undefined && playerQueue.length != 0)
 			oppID = playerQueue.shift();
-		if (playerQueue.length == 0 && oppID === undefined) {
+		if (io.sockets.sockets[oppID] === undefined || oppID === undefined) {
 			playerQueue.push(socket.id);
+			console.log(playerQueue);
 		} else {
+			console.log('Connecting ' + socket.id + ' with ' + oppID);
 			io.sockets.socket(oppID).emit('opponent-found', {
 				'oppID': socket.id
 			});
@@ -28,7 +30,7 @@ io.sockets.on('connection', function(socket) {
 				'oppID': oppID
 			});
 		}
-	})
+	});
 	socket.on('clientMousemove', function(data) {
 		io.sockets.socket(data.oppID).emit('serverMousemove', data);
 	});
