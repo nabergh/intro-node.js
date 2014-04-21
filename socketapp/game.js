@@ -1,4 +1,4 @@
-var socket = io.connect("localhost");//nabergh.herokuapp.com");
+var socket = io.connect("nabergh.herokuapp.com");
 var oppID; //opponent's socket id
 
 socket.on('connect', function(data) {
