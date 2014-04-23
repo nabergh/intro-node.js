@@ -1,6 +1,7 @@
 canvas = document.getElementById('drawingBoard');
 context = canvas.getContext('2d');
 
+canPaint = true;
 var isPainting = false;
 var offsetLeft = $('canvas').offset().left;
 var offsetTop = $('canvas').offset().top;
@@ -8,8 +9,9 @@ $('canvas').mousedown(function(e) {
 	var mouseX = e.pageX - this.offsetLeft;
 	var mouseY = e.pageY - this.offsetTop;
 
-	isPainting = true;
-	addClick(e.pageX - offsetLeft, e.pageY - offsetTop);
+	isPainting = canPaint;
+	if(isPainting)
+		addClick(e.pageX - offsetLeft, e.pageY - offsetTop);
 	draw();
 }).mousemove(function(e) {
 	if (isPainting) {
@@ -67,6 +69,8 @@ function clear() {
 }
 
 $('.color-pick').click(function(e) {
+	$('.color-pick').removeClass('painting');
+	$(this).addClass('painting');
 	color = $(this).css('background-color');
 	brushChange(color, weight);
 });
@@ -81,12 +85,16 @@ $('.weight-pick').each(function() {
 });
 
 $('.weight-pick').click(function(e) {
+	$('.weight-pick').removeClass('painting');
+	$(this).addClass('painting');
 	weight = $(this).attr('weight');
 	brushChange(color, weight);
 });
 
+$('.color-pick').first().addClass('painting');
+$('.weight-pick').first().addClass('painting');
+
 $('#clear').click(function(e) {
 	resetTools();
 	clear();
-	draw();
 })

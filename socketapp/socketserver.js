@@ -24,12 +24,17 @@ io.sockets.on('connection', function(socket) {
 		} else {
 			console.log('Connecting ' + socket.id + ' with ' + oppID);
 			io.sockets.socket(oppID).emit('opponent-found', {
-				'oppID': socket.id
+				'oppID': socket.id,
+				'clientID': oppID
 			});
 			io.sockets.socket(socket.id).emit('opponent-found', {
-				'oppID': oppID
+				'oppID': oppID,
+				'clientID': socket.id
 			});
 		}
+	});
+	socket.on('client-disconnect', function(data) {
+		io.sockets.socket(data.oppID).emit('opponent-disconnect');
 	});
 	socket.on('clientMousemove', function(data) {
 		io.sockets.socket(data.oppID).emit('serverMousemove', data);
