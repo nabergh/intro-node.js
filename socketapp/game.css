@@ -28,13 +28,17 @@ body {
 	opacity: 0;
 }
 
+#round-instructions {
+	margin: 10px;
+}
+
 #painter {
-	margin: 50px auto;
+	margin: 10px auto;
 	width: 600px;
 }
 
 #guesser {
-	margin: 100px auto;
+	margin: 60px auto;
 	width: 400px;
 }
 
@@ -82,9 +86,11 @@ canvas {
 	color: gray;
 }
 
-#guess {
+.guess {
 	width: 200px;
 	font-family: sans-serif;
+	text-align: center;
+	margin: 0 auto;
 }
 
 /*.focus-span {

@@ -16,6 +16,7 @@ window.onbeforeunload = function() {
 socket.on('opponent-disconnect', function(data) {
 	window.clearTimeout(timeoutID1);
 	window.clearTimeout(timeoutID2);
+	$('#round-instructions').text('Searching for an opponent...');
 	socket.emit('opponent-searching');
 });
 
@@ -30,9 +31,13 @@ socket.on('opponent-found', function(data) {
 });
 
 function switchPlayers() {
+	$('#round-instructions').css({opacity: 1});
+	$('#round-instructions').text('Round will begin in 3 seconds.');
+	$('#round-instructions').fadeTo(3000, 0);
 	if (playerNo == 1) {
 		playerNo = 2;
 		updateCursor(color, weight);
+		$('.painting').removeClass('painting');
 		$('#p2 .instructions').fadeTo(600, 1);
 		$('#p1 .instructions').fadeTo(600, 0);
 		$('#p1 .pronoun').text('They');
@@ -40,6 +45,7 @@ function switchPlayers() {
 		canPaint = false;
 	} else {
 		playerNo = 1;
+		clear();
 		$('#cursor').empty();
 		$('#p1 .instructions').fadeTo(600, 1);
 		$('#p2 .instructions').fadeTo(600, 0);
@@ -66,7 +72,7 @@ function startGuessTimer(time) {
 	}
 }
 
-var timeoutID1, timeoutID2;
+var timeoutID1, timeoutID2, timeoutID3;
 
 function countDownPainter(time) {
 	$('#p1 .time').text(time / 10 < 1 ? '0' + time : time);
@@ -79,19 +85,27 @@ function countDownGuesser(time) {
 }
 
 function endRound() {
+	$('#round-instructions').css({opacity: 1});
 	if (playerNo == 1) {
 		socket.emit('fillCanvas', {
 			'oppID': oppID,
 			url: canvas.toDataURL()
 		});
+		$('#round-instructions').text('Did they guess correctly?');
 	} else {
+		$('textarea.guess').trigger('focusout');
 		$('#cursor').empty();
+		socket.emit('sendGuess', {
+			'oppID': oppID,
+			guess: $('.guess').val()
+		});
+		$('#round-instructions').text('Did you guess correctly?');
 	}
+	timeoutID3 = window.setTimeout(switchPlayers, 10000);
 }
 
 /*
 function focusOnElement(element) {
-	console.log("IT'S HAPPENING");
 	element.children('span').css({
 		//'box-shadow': '0px 0px 5px 10px white',
 		position: 'relative',
@@ -148,17 +162,14 @@ socket.on('serverMousemove', function(data) {
 	}, data.duration, 'linear');
 });
 
-/*$('#send-canvas').click(function(event) {
-	socket.emit('fillCanvas', {
-		'oppID': oppID,
-		url: canvas.toDataURL()
-	});
-});*/
-
 socket.on('fillCanvas', function(data) {
 	var img = new Image();
 	img.src = data.url;
 	context.drawImage(img, 0, 0);
+});
+
+socket.on('receiveGuess', function(data) {
+	$('p.guess').text(data.guess);
 });
 
 function brushChange(c, w) {
@@ -208,8 +219,21 @@ socket.on('endPaint', function(data) {
 });
 
 
-$('#guess').elastic();
-$('#guess').click(function() {
-	$(this).removeClass('faded');
-	$(this).empty();
-})
+$('.guess').elastic();
+$('p.guess').click(function() {
+	if(playerNo == 2) {
+		$(this).hide();
+		$('textarea.guess').show();
+		$('textarea.guess').val($(this).text());
+	}
+});
+
+$('textarea.guess').on('focusout', function() {
+	if($(this).val() && playerNo == 2){
+		$(this).hide();
+		$('p.guess').show();
+		$('p.guess').text($(this).val());
+	}
+});
+
+$('textarea.guess').hide();

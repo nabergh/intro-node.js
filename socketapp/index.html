@@ -18,6 +18,7 @@
   <h1>
     What am I drawing?
   </h1>
+  <h2 id="round-instructions">Searching for an opponent...</h2>
   <div id="p1">
     <div id="painter">
       <h2 class="instructions">
@@ -40,7 +41,6 @@
         <div class="weight-pick" weight="10"></div>
         <div class="weight-pick" weight="20"></div>
       </div>
-      <!--<button id='send-canvas'>Send canvas</button> -->
     </div>
   </div>
 
@@ -54,7 +54,8 @@
           Your opponent is drawing something.  Guess what they draw below.
         </h4>
       </div>
-        <textarea id="guess" rows="1" class="faded">type your guess here</textarea>
+        <textarea class="guess" rows="1"></textarea>
+        <p class="guess">Type guess here.</p>
         <p>
           <span class="pronoun">You</span> have 0:<span class="time">30</span> seconds to guess.
         </p>

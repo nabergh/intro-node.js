@@ -42,6 +42,9 @@ io.sockets.on('connection', function(socket) {
 	socket.on('fillCanvas', function(data) {
 		io.sockets.socket(data.oppID).emit('fillCanvas', data);
 	});
+	socket.on('sendGuess', function(data) {
+		io.sockets.socket(data.oppID).emit('receiveGuess', data);
+	});
 	socket.on('brushChange', function(data) {
 		io.sockets.socket(data.oppID).emit('brushChange', data);
 	});

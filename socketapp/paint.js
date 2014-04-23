@@ -25,6 +25,8 @@ $('canvas').mousedown(function(e) {
 });
 
 var clickX, clickY, clickDrag, colors, weights;
+var color;
+var weight;
 
 function resetTools() {
 	clickX = [];
@@ -32,11 +34,13 @@ function resetTools() {
 	clickDrag = [];
 	colors = [];
 	weights = [];
+	color = 'black';
+	weight = 5;
+	$('.color-pick').first().addClass('painting');
+	$('.weight-pick').first().addClass('painting');
 }
 
 resetTools();
-var color = 'black';
-var weight = 5;
 
 function addClick(x, y, isDragging) {
 	clickX.push(x);
@@ -90,9 +94,6 @@ $('.weight-pick').click(function(e) {
 	weight = $(this).attr('weight');
 	brushChange(color, weight);
 });
-
-$('.color-pick').first().addClass('painting');
-$('.weight-pick').first().addClass('painting');
 
 $('#clear').click(function(e) {
 	resetTools();
